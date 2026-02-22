@@ -1,0 +1,19 @@
+[project]
+name = "agent-vitals"
+version = "0.1.0"
+description = "A module to track token usage, context window, and time for AI agent sessions."
+authors = [{ name = "Your Name", email = "your@email.com" }]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "tiktoken",
+    "rich",
+]
+
+[project.scripts]
+agent-vitals = "agent_vitals.cli:main"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
