@@ -1,0 +1,28 @@
+# Python caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Build / packaging artifacts
+*.egg-info/
+build/
+dist/
+
+# Local environments
+.venv/
+venv/
+.env
+.env.*
+.python-version
+
+# Coverage
+.coverage
+coverage.xml
+htmlcov/
+
+# OS noise / logs
+.DS_Store
+*.log
+.tmp_*
