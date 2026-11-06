@@ -1,6 +1,23 @@
 # AgentVitals
 
-This package tracks token usage, context window, and other vitals for AI agent sessions.
+A live dashboard for your AI coding agent session. See tokens in and out, estimated cost,
+and how full the context window is, while you keep working in another terminal.
+
+Coding agents hide how much context you have burned until the session degrades or hits the limit.
+AgentVitals reads Codex's notify hook and keeps a running tally you can glance at.
+
+![agent-vitals watch: token totals and the context bar climb as Codex turns complete](docs/demo.gif)
+
+## Install
+
+AgentVitals is not on PyPI. The `agent-vitals` package there is an unrelated project.
+Install from source:
+
+```bash
+pip install git+https://github.com/Kipung/AgentVitals
+```
+
+Then follow the Codex setup below.
 
 ## Features
 
