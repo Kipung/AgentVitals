@@ -23,7 +23,7 @@ BRIDGE_PATH="$(realpath examples/codex_vitals_bridge.sh)"
 2. Add the bridge to `~/.codex/config.toml`:
 
 ```toml
-notifier = [
+notify = [
   "/absolute/path/to/examples/codex_vitals_bridge.sh"
 ]
 ```

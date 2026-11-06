@@ -2,7 +2,7 @@
 name = "agent-vitals"
 version = "0.1.0"
 description = "A module to track token usage, context window, and time for AI agent sessions."
-authors = [{ name = "Your Name", email = "your@email.com" }]
+authors = [{ name = "Kip Park" }]
 license = { text = "MIT" }
 readme = "README.md"
 requires-python = ">=3.8"
