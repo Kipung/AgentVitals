@@ -43,6 +43,33 @@ def test_extract_token_counts_falls_back_to_text() -> None:
     assert counts["total_tokens"] == counts["input_tokens"] + counts["output_tokens"]
 
 
+def test_extract_token_counts_counts_list_valued_input_messages() -> None:
+    payload = {
+        "input-messages": ["Please run the tests.", "Then summarise failures."],
+        "last-assistant-message": "All green.",
+    }
+    counts = extract_token_counts(payload, "cl100k_base")
+    assert counts["input_tokens"] > 0
+    assert counts["total_tokens"] == counts["input_tokens"] + counts["output_tokens"]
+
+
+def test_extract_token_counts_counts_message_dict_content() -> None:
+    payload = {"input-messages": [{"role": "user", "content": "Refactor the parser."}]}
+    counts = extract_token_counts(payload, "cl100k_base")
+    assert counts["input_tokens"] > 0
+
+
+def test_extract_token_counts_derives_total_from_output_only() -> None:
+    counts = extract_token_counts({"last-assistant-message": "Done."}, "cl100k_base")
+    assert counts["output_tokens"] > 0
+    assert counts["total_tokens"] == counts["output_tokens"]
+
+
+def test_extract_token_counts_derives_total_from_input_only() -> None:
+    counts = extract_token_counts({"input_tokens": 42}, "cl100k_base")
+    assert counts == {"input_tokens": 42, "output_tokens": 0, "total_tokens": 42}
+
+
 def test_update_codex_state_persists_and_accumulates(tmp_path) -> None:
     state_file = tmp_path / "state.json"
     events_file = tmp_path / "events.jsonl"

@@ -121,11 +121,24 @@ def payload_event_matches(hook_event: str, target_event: str) -> bool:
     return target in aliases.get(actual, {actual})
 
 
+def _flatten_text(value: Any) -> str:
+    """Join strings found in a str, a list of messages, or a {"content": ...} dict."""
+    if isinstance(value, str):
+        return value
+    if isinstance(value, list):
+        return "\n".join(part for part in map(_flatten_text, value) if part.strip())
+    if isinstance(value, dict):
+        for key in ("text", "content"):
+            if key in value:
+                return _flatten_text(value[key])
+    return ""
+
+
 def extract_text_value(payload: Dict[str, Any], keys: Iterable[str]) -> str:
     for key in keys:
-        value = payload.get(key)
-        if isinstance(value, str) and value.strip():
-            return value
+        text = _flatten_text(payload.get(key))
+        if text.strip():
+            return text
     return ""
 
 
@@ -169,8 +182,8 @@ def extract_token_counts(payload: Dict[str, Any], encoding_name: str) -> Dict[st
         output_tokens = count_tokens(output_text, encoding_name)
 
     if total_tokens is None:
-        if input_tokens is not None and output_tokens is not None:
-            total_tokens = input_tokens + output_tokens
+        if input_tokens is not None or output_tokens is not None:
+            total_tokens = (input_tokens or 0) + (output_tokens or 0)
     elif input_tokens is None and output_tokens is not None:
         input_tokens = max(total_tokens - output_tokens, 0)
     elif output_tokens is None and input_tokens is not None:
